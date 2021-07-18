@@ -27,7 +27,7 @@ deploy_production:
         - echo "$SSH_KEY" > ~/.ssh/id_rsa
         - chmod 700 -R ~/.ssh
     script:
-        - ssh -o StrictHostKeyChecking=no $SSH_USER@$HOST -p $PORT "docker run --name health-check-proxy -d --restart always -p 8081:8080 ctg96/ctgjdw:health-check-proxy"
+        - ssh -o StrictHostKeyChecking=no $SSH_USER@$HOST -p $PORT "docker stop health-check-proxy && docker rm health-check-proxy && docker rmi ctg96/ctgjdw:health-check-proxy && docker run -d --name health-check-proxy -p 8081:8080 --restart always ctg96/ctgjdw:health-check-proxy"
     only:
         - master
     tags:
