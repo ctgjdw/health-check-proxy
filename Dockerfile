@@ -1,9 +1,10 @@
 FROM node:alpine
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
 
-COPY . .
+COPY package.json /app
+RUN npm install
+COPY . /app
+
 EXPOSE 8080
-CMD ["node", "run", "start"]
+CMD ["node", "app.js"]
