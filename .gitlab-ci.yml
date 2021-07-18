@@ -1,0 +1,37 @@
+# image: alpine
+stages:
+    - build
+    - deploy
+
+build_production:
+    stage: build
+    cache:
+        key:
+            files:
+                - package-lock.json
+        paths:
+            - node_modules
+    before_script:
+        - docker info
+    script:
+        - echo "$DOCKER_PW" | docker login --username ctg96 --password-stdin
+        - docker build -t ctg96/ctgjdw:health-check-proxy
+        - docker push ctg96/ctgjdw:health-check-proxy
+    only:
+        - master
+    tags:
+        - docker-1
+    
+deploy_production:
+    stage: deploy
+    before_script:
+        - apk add --no-cache openssh-client
+        - mkdir -p ~/.ssh
+        - echo "$SSH_KEY" > ~/.ssh/id_rsa
+        - chmod 700 -R ~/.ssh
+    script:
+        - ssh -o StrictHostKeyChecking=no $SSH_USER@$HOST -p $PORT "docker run --name health-check-proxy -d -p 8080:8080 ctg96/ctgjdw:health-check-proxy"
+    only:
+        - master
+    tags:
+        - docker-1

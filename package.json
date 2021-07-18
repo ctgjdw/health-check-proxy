@@ -1,0 +1,17 @@
+{
+  "name": "health-check-proxy",
+  "version": "1.0.0",
+  "description": "Health check proxy for Gitlab",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "https": "^1.0.0",
+    "is-reachable": "^5.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
