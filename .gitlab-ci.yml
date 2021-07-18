@@ -31,4 +31,4 @@ deploy_production:
     only:
         - master
     tags:
-        - docker-shell
+        - docker-1
