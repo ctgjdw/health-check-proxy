@@ -11,7 +11,8 @@ build_production:
         paths:
             - node_modules
     script:
-        # - echo "$DOCKER_PW" | docker login --username ctg96 --password-stdin
+        - echo "$DOCKER_PW"
+        - echo "$DOCKER_PW" | docker login --username ctg96 --password-stdin
         - docker build -t ctg96/ctgjdw:health-check-proxy .
         - docker push ctg96/ctgjdw:health-check-proxy
     only:
@@ -27,7 +28,7 @@ deploy_production:
         - echo "$SSH_KEY" > ~/.ssh/id_rsa
         - chmod 700 -R ~/.ssh
     script:
-        - ssh -o StrictHostKeyChecking=no $SSH_USER@$HOST -p $PORT "docker run --name health-check-proxy -d -p 8080:8080 ctg96/ctgjdw:health-check-proxy"
+        - ssh -o StrictHostKeyChecking=no $SSH_USER@$HOST -p $PORT "docker run --name health-check-proxy -d --restart always -p 8081:8080 ctg96/ctgjdw:health-check-proxy"
     only:
         - master
     tags:
