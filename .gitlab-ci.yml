@@ -1,4 +1,3 @@
-image: docker
 stages:
     - build
     - deploy
@@ -11,8 +10,6 @@ build_production:
                 - package-lock.json
         paths:
             - node_modules
-    before_script:
-        - docker info
     script:
         - echo "$DOCKER_PW" | docker login --username ctg96 --password-stdin
         - docker build -t ctg96/ctgjdw:health-check-proxy
@@ -20,7 +17,7 @@ build_production:
     only:
         - master
     tags:
-        - docker-1
+        - docker-shell
     
 deploy_production:
     stage: deploy
@@ -34,4 +31,4 @@ deploy_production:
     only:
         - master
     tags:
-        - docker-1
+        - docker-shell
