@@ -11,8 +11,7 @@ build_production:
         paths:
             - node_modules
     script:
-        - echo "$DOCKER_PW"
-        - echo "$DOCKER_PW" | docker login --username ctg96 --password-stdin
+        - echo "$$DOCKER_PW" | docker login --username ctg96 --password-stdin
         - docker build -t ctg96/ctgjdw:health-check-proxy .
         - docker push ctg96/ctgjdw:health-check-proxy
     only:
